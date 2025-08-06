@@ -1,0 +1,1 @@
+This folder contains database files. When a user is signup , it will be written in a txt file.
