@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Best Website - Login</title>
+  <link rel="stylesheet" href="static/style.css">
+
+</head>
+
+<body>
+
+    <div id="login-page">
+      <div class="auth-container">
+        <h2>Sign in to Your Account</h2>
+        {% if login_error %}
+          <div class="error_message">
+            <label style="color: red;">{{login_error}}</label>
+          </div>
+        {% endif %}
+
+        <form id="login-form" action="/login_user" method="POST">
+          <div class="form-group">
+            <label for="login_email">Login Email</label>
+            <input type="email" id="login_email" name="email" required placeholder="Enter your login email">
+          </div>
+
+          <div class="form-group">
+            <label for="login_password">Password</label>
+            <input type="password" id="login_password" name="password" required placeholder="Enter password">
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="login-signup formbutton">Login</button>
+          </div>
+        </form>
+        <div>
+          <button type="button" class="googlelogin" onclick="document.location='/googlelogin'">Login with Google</button>
+        </div>
+
+      </div>
+    </div>
+
+
+</body>
+</html>

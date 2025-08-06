@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Best Website</title>
+  <link rel="stylesheet" href="static/style.css">
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" /> -->
+</head>
+<script>
+  // Simple page navigation
+  function showProductsPage() {
+    document.getElementById('login-page').classList.remove('active-page');
+    document.getElementById('signup-page').classList.remove('active-page');
+    //document.getElementById('products-page').classList.add('active-page');
+  }
+
+  function showSignupPage() {
+    document.getElementById('login-page').classList.remove('active-page');
+    //document.getElementById('products-page').classList.remove('active-page');
+    document.getElementById('signup-page').classList.add('active-page');
+  }
+
+  function showLoginPage() {
+    document.getElementById('signup-page').classList.remove('active-page');
+    //document.getElementById('products-page').classList.remove('active-page');
+    document.getElementById('login-page').classList.add('active-page');
+  }
+
+
+</script>
+
+<body>
+  <!-- BEGIN nav bar section -->
+  <header class="section-navbar">
+    <div class="container">
+      <div class="navbar-brand">
+      <a href="index.html">
+        <img src="images/logo.jpg" alt="logo" width="40%" height="auto">
+      </a>
+    </div>
+      <nav class="navbar">
+        <ul>
+          <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/">Contact</a></li>
+          {% if login_user %}
+            <button class="username">{{login_user}}</button>
+            <button class="login-signup" onclick="doLogOut()">Logout</button>
+
+          {% else %}
+            <button class="login-signup" onclick="showLoginPage()">Login</button>
+            <button class="login-signup" onclick="showSignupPage()">Sign Up</button>
+          {% endif %}
+        </ul>
+
+      </nav>
+    </div>
+  </header>
+  <!-- END nav bar section -->
+  <main>
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">
+        <h2>Categories</h2>
+      </div>
+      <div class="category">
+        <ul>
+          {% for category in categories_list %}
+          <li><a href="#">{{ category.title() }}</a></li>
+          {% endfor %}
+
+        </ul>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="page-header">
+        <h1>Featured Products</h1>
+        <div class="search-bar">
+          <input type="text" placeholder="Search products...">
+            <button>Search</button>
+        </div>
+      </div>
+      <div class="products">
+        <!-- Product 1 -->
+        <div class="product-card">
+          <div class="product-image">
+            <img src="https://via.placeholder.com/300x200?text=Smartphone" alt="Smartphone">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Premium Smartphone X9</h3>
+            <div class="product-price">$699.99</div>
+            <p class="product-description">Latest model with 128GB storage and triple camera system.</p>
+            <button class="add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+
+        <!-- List of Products -->
+        {% for item in products_list %}
+        <div class="product-card">
+          <div class="product-image">
+            <img src={{item.image_url}} alt={{item.title}}>
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">{{ item.title }}</h3>
+            <div class="product-price">${{ item.price }}</div>
+            <p class="product-description">{{ item.description }}</p>
+            <button class="add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% if not login_user %}
+    <div>
+      <p class="logintoview">Please <a class="logintoview" href="/login_user">login</a> to view all products</p>
+    </div>
+    {% endif %}
+
+    <!-- Signup Page -->
+
+    <div id="signup-page" class="auth-container-cover">
+      <div class="auth-container">
+        <h2>Create Your Account</h2>
+        <form id="signup-form">
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email">
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required placeholder="Create a password">
+          </div>
+
+          <div class="form-group">
+            <label for="country">Country</label>
+            <select id="country" name="country" required>
+              <option value="">Select your country</option>
+              <option value="US">United States</option>
+              <option value="CA">Canada</option>
+              <option value="UK">United Kingdom</option>
+              <option value="AU">Australia</option>
+              <option value="IN">India</option>
+              <option value="JP">Japan</option>
+              <option value="DE">Germany</option>
+              <option value="FR">France</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="address">Address</label>
+            <textarea id="address" name="address" required placeholder="Enter your full address"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required placeholder="Enter your phone number">
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="login-signup formbutton" onclick="showProductsPage()">Cancel</button>
+            <button type="submit" class="login-signup formbutton">Create Account</button>
+          </div>
+        </form>
+        <div class="auth-toggle">
+          Already have an account? <a onclick="showLoginPage()">Login here</a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ########################################################### -->
+
+    <div id="login-page" class="auth-container-cover">
+      <div class="auth-container">
+        <h2>Sign in to Your Account</h2>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="login_email">Login Email</label>
+            <input type="email" id="login_email" name="email" required placeholder="Enter your login email">
+          </div>
+
+          <div class="form-group">
+            <label for="login_password">Password</label>
+            <input type="password" id="login_password" name="password" required placeholder="Enter password">
+          </div>
+
+
+          <div class="form-actions">
+            <button type="button" class="login-signup formbutton" onclick="showProductsPage()">Cancel</button>
+            <button type="submit" class="login-signup formbutton">Login</button>
+          </div>
+        </form>
+        <div>
+          <button type="button" class="googlelogin" onclick="document.location='/googlelogin'">Login with Google</button>
+        </div>
+
+        <div class="auth-toggle">
+          Don't have an account? <a onclick="showSignupPage()">Signup here</a>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+
+  async function sendJsonToRestEndpoint(url, data) {
+    try {
+
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json' // Optional: indicates client expects JSON in response
+        },
+        body: JSON.stringify(data) // Convert JavaScript object to JSON string
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const responseData = await response.json(); // Parse JSON response
+      console.log('Info:', responseData);
+      return (responseData);
+    } catch (error) {
+      console.error('Error:', error);
+      return ({'status': 'error', 'message': 'unexpected error'});
+    }
+  }
+  // Signup Form submission handling
+  document.getElementById('signup-form').addEventListener('submit',
+    function(e) {
+      e.preventDefault();
+      const endpointUrl = '/signup';
+
+      const jsonData = {
+      username: document.getElementById('email').value,
+      password: document.getElementById('password').value,
+      country: document.getElementById('country').value,
+      address: document.getElementById('address').value,
+      phone: document.getElementById('phone').value,
+      };
+      result =  sendJsonToRestEndpoint(endpointUrl, jsonData);
+      result.then((value) => {
+        if (value['status'] == 'error') {
+          alert('User not created. reason: ' + value['message']);
+        }
+        else {
+          alert('User created successfully.');
+          showProductsPage();
+          this.reset();
+        }
+      })
+    });
+
+  /************************************************/
+  // Login Form submission handling
+  document.getElementById('login-form').addEventListener('submit',
+    function(e) {
+      e.preventDefault();
+      const endpointUrl = '/login';
+
+      const jsonData = {
+      username: document.getElementById('login_email').value,
+      password: document.getElementById('login_password').value,
+      };
+
+      result =  sendJsonToRestEndpoint(endpointUrl, jsonData);
+      result.then((value) => {
+        if (value['status'] == 'error') {
+          alert('Login Failed. reason: ' + value['message']);
+        }
+        else {
+        console.log(value);
+          localStorage.setItem('access_token', value.access_token);
+          alert('Login successful.');
+          this.reset();
+          window.location.href = '/';
+
+          //showProductsPage();
+
+        }
+      })
+    });
+
+    function doLogOut(){
+    window.location.href = '/logout';
+    }
+  </script>
+
+</body>
+</html>
